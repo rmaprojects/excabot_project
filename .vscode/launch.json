@@ -8,8 +8,13 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
+<<<<<<< HEAD
       "cwd": "c:/Users/Hp/OneDrive/Dokumen/GitHub/excabot_project/main",
       "program": "c:/Users/Hp/OneDrive/Dokumen/GitHub/excabot_project/main/build/Debug/outDebug",
+=======
+      "cwd": ".",
+      "program": "build/Debug/outDebug",
+>>>>>>> 1f1db757e71bac26856506f10dd55a35532cdec1
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
