@@ -1,8 +1,21 @@
 #include "joystick_helper.h"
-
+#include "timer.h"
+const int BUZZ = ;
+bool isRunning = true;
+  
 void setup() {
   pinMode(joystickSw, INPUT_PULLUP);
+  pinMode(RED, OUTPUT);
+  pinMode(YELLOW, OUTPUT);
+  pinMode(GREEN, OUTPUT);
+  pinMode(BUZZ, OUTPUT);
+  initTimer();
   Serial.begin(9600);
+  digitalWrite(RED, LOW);
+  digitalWrite(YELLOW, LOW);
+  digitalWrite(GREEN, LOW);
+  digitalWrite(BUZZ, LOW);
+
 }
 
 void loop() {
@@ -35,9 +48,15 @@ void loop() {
   }
   Serial.println();
 
+  isRunning = timer(isRunning);
+  if (isRunning == false){
+    digitalWrite(BUZZ, HIGH);
+    Serial.println("Buzz On");
+  }
+
   delay(100);
 }
-
+    
 
 
 
