@@ -18,11 +18,11 @@ onJoystickClicked joystickcolour(int counter) {
   if (digitalRead(joystickSw) == LOW) {
     // Nyalakan LED sesuai urutan
     if (counter == 1) {
-      return GREEN;
+      return HIJAU;
     } else if (counter == 2) {
-      return YELLOW;
+      return KUNING;
     } else if (counter == 3) {
-      return RED;
+      return MERAH;
     }
   }
 }

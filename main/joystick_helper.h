@@ -20,9 +20,9 @@ typedef enum {
 } JoystickMovement;
 
 typedef enum {
-  GREEN,
-  YELLOW,
-  RED
+  HIJAU,
+  KUNING,
+  MERAH
 } onJoystickClicked;
 
 JoystickMovement getjoystickState();
