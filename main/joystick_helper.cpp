@@ -1,5 +1,6 @@
 #include "joystick_helper.h"
 
+
 JoystickMovement getjoystickState() {
 
   int xValue = analogRead(xAxis);
@@ -12,3 +13,17 @@ JoystickMovement getjoystickState() {
 
   return IDLE;
 }
+
+onJoystickClicked joystickcolour(int counter) {
+  if (digitalRead(joystickSw) == LOW) {
+    // Nyalakan LED sesuai urutan
+    if (counter == 1) {
+      return GREEN;
+    } else if (counter == 2) {
+      return YELLOW;
+    } else if (counter == 3) {
+      return RED;
+    }
+  }
+}
+

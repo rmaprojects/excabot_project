@@ -2,10 +2,14 @@
 #define JOYSTICK_HELPER_H
 #include <Arduino.h>
 
-const int yAxis = A2;
-const int xAxis = A3;
+const int yAxis = A0;
+const int xAxis = A1;
 
-const int joystickSw = 12;
+const int joystickSw = 5;
+const int ledHijau = 2;
+const int ledKuning = 3;
+const int ledMerah = 4;
+
 
 typedef enum {
   IDLE, // 0
@@ -15,6 +19,13 @@ typedef enum {
   DOWN  // 4
 } JoystickMovement;
 
+typedef enum {
+  GREEN,
+  YELLOW,
+  RED
+} onJoystickClicked;
+
 JoystickMovement getjoystickState();
+onJoystickClicked joystickcolour(int counter);
 
 #endif
