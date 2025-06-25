@@ -1,30 +1,42 @@
+#include <Servo.h>
+
 #include "joystick_helper.h"
 #include "timer.h"
+
 int counter = 1;
-const int BUZZ = 8;
 bool isRunning = true;
 
+//Define grappler
+#define GRAPPLERSERVOPIN 2
+#define BASESERVOPIN 5
+
+//Servos
+Servo grapplerServo;
+Servo baseServo;
+int grapplerPos = 50;
+int baseServoPos = 0;
+
 void setup() {
+
   pinMode(joystickSw, INPUT_PULLUP);
+
+  grapplerServo.attach(GRAPPLERSERVOPIN);
+  baseServo.attach(BASESERVOPIN);
+
+  //LED Timer
   pinMode(RED, OUTPUT);
   pinMode(YELLOW, OUTPUT);
   pinMode(GREEN, OUTPUT);
   pinMode(BUZZ, OUTPUT);
+
   initTimer();
+
   Serial.begin(9600);
+
+  //LED Joystick
   pinMode(ledHijau, OUTPUT);
   pinMode(ledKuning, OUTPUT);
   pinMode(ledMerah, OUTPUT);
-
-  // Matikan semua LED dulu
-  digitalWrite(ledHijau, HIGH);
-  digitalWrite(ledKuning, LOW);
-  digitalWrite(ledMerah, LOW);
-  digitalWrite(RED, LOW);
-  digitalWrite(YELLOW, LOW);
-  digitalWrite(GREEN, LOW);
-  digitalWrite(BUZZ, LOW);
-
 }
 
 
@@ -36,6 +48,7 @@ void loop() {
   switch(joystickState) {
     case IDLE:
       Serial.println("IDLE");
+      Serial.println(grapplerServo.read());
       break;
     case UP:
       Serial.println("UP");
@@ -44,12 +57,27 @@ void loop() {
       Serial.println("DOWN");
       break;
     case LEFT:
+      grapplerPos -= 5;
+      baseServoPos -= 15;
       Serial.println("LEFT");
+      Serial.println(grapplerServo.read());
       break;
     case RIGHT:
+      grapplerPos += 5;
+      baseServoPos += 15;
       Serial.println("RIGHT");
+      Serial.println(grapplerServo.read());
       break;
   }
+
+  grapplerPos = constrain(grapplerPos, 0, 100);
+  baseServoPos = constrain(baseServoPos, 0, 200);
+
+  grapplerServo.write(grapplerPos);
+  baseServo.write(baseServoPos);
+  Serial.println(grapplerPos);
+  Serial.println(baseServoPos);
+
 
   if (buttonState == HIGH) {
     Serial.println("OFF");
@@ -57,6 +85,7 @@ void loop() {
     Serial.println("ON");
     
   }
+
   if (digitalRead(joystickSw) == LOW) {
     delay(50); // debounce
     counter++;

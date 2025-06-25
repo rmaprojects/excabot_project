@@ -1,3 +1,4 @@
+#include "pins_arduino.h"
 #ifndef JOYSTICK_HELPER_H
 #define JOYSTICK_HELPER_H
 #include <Arduino.h>
@@ -6,9 +7,9 @@ const int yAxis = A0;
 const int xAxis = A1;
 
 const int joystickSw = 5;
-const int ledHijau = 2;
-const int ledKuning = 3;
-const int ledMerah = 4;
+const int ledHijau = 7;
+const int ledKuning = 8;
+const int ledMerah = 9;
 
 
 typedef enum {

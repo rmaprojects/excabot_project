@@ -1,8 +1,14 @@
 #ifndef TIMER_CONTROL_H
 #define TIMER_CONTROL_H
-const int RED = 9;
-const int YELLOW = 10;
-const int GREEN = 11;
+#include "joystick_helper.h"
+
+
+const int RED = 10;
+const int YELLOW = 11;
+const int GREEN = 12;
+
+const int BUZZ = 13;
+
 
 void initTimer();
 bool timer(bool isRunning);

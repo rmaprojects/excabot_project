@@ -1,10 +1,17 @@
-#include <LowPower.h>
 #include "timer.h"
 
 unsigned long timerMillis = 0;
 
 void initTimer() {
-    timerMillis = millis();
+  // Matikan semua LED dulu
+  digitalWrite(ledHijau, HIGH);
+  digitalWrite(ledKuning, LOW);
+  digitalWrite(ledMerah, LOW);
+  digitalWrite(RED, LOW);
+  digitalWrite(YELLOW, LOW);
+  digitalWrite(GREEN, LOW);
+  digitalWrite(BUZZ, LOW);
+  timerMillis = millis();
 }
 
 bool timer(bool isRunning){
