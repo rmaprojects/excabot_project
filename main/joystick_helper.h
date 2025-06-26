@@ -6,7 +6,8 @@
 const int yAxis = A0;
 const int xAxis = A1;
 
-const int joystickSw = 5;
+const int joystickSw = 6;
+
 const int ledHijau = 7;
 const int ledKuning = 8;
 const int ledMerah = 9;
