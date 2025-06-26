@@ -6,22 +6,28 @@
 int counter = 1;
 bool isRunning = true;
 
-//Define grappler
+//Define servo pins
 #define GRAPPLERSERVOPIN 2
 #define BASESERVOPIN 5
+#define ARMSERVOPIN 3
 
 //Servos
 Servo grapplerServo;
 Servo baseServo;
+Servo armServo;
+
 int grapplerPos = 50;
 int baseServoPos = 0;
+int armServoPos = 21;
 
 void setup() {
 
   pinMode(joystickSw, INPUT_PULLUP);
 
+  //Servos
   grapplerServo.attach(GRAPPLERSERVOPIN);
   baseServo.attach(BASESERVOPIN);
+  armServo.attach(ARMSERVOPIN);
 
   //LED Timer
   pinMode(RED, OUTPUT);
@@ -48,35 +54,40 @@ void loop() {
   switch(joystickState) {
     case IDLE:
       Serial.println("IDLE");
-      Serial.println(grapplerServo.read());
       break;
     case UP:
       Serial.println("UP");
+      armServoPos += 7;
       break;
     case DOWN:
       Serial.println("DOWN");
+      armServoPos -= 7;
       break;
     case LEFT:
-      grapplerPos -= 5;
+      grapplerPos -= 7;
       baseServoPos -= 15;
       Serial.println("LEFT");
       Serial.println(grapplerServo.read());
       break;
     case RIGHT:
-      grapplerPos += 5;
+      grapplerPos += 7;
       baseServoPos += 15;
       Serial.println("RIGHT");
       Serial.println(grapplerServo.read());
       break;
   }
-
+  
   grapplerPos = constrain(grapplerPos, 0, 100);
   baseServoPos = constrain(baseServoPos, 0, 200);
+  armServoPos = constrain(armServoPos, 0, 180);
 
   grapplerServo.write(grapplerPos);
   baseServo.write(baseServoPos);
+  armServo.write(armServoPos);
+
   Serial.println(grapplerPos);
   Serial.println(baseServoPos);
+  Serial.println(armServoPos);
 
 
   if (buttonState == HIGH) {
@@ -107,7 +118,6 @@ void loop() {
     Serial.println(counter);
   }
   
-  Serial.println();
 
   isRunning = timer(isRunning);
   if (isRunning == false){

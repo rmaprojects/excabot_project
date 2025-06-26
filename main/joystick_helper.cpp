@@ -9,8 +9,8 @@ JoystickMovement getjoystickState() {
   Serial.print(xValue);
   Serial.print(yValue);
 
-  if (xValue < 45) return LEFT;
-  if (xValue > 1000) return RIGHT;
+  if (xValue < 45) return RIGHT;
+  if (xValue > 1000) return LEFT;
   if (yValue < 52) return UP;
   if (yValue > 1000) return DOWN;
 
