@@ -56,24 +56,32 @@ void loop() {
       Serial.println("IDLE");
       break;
     case UP:
+      if(counter == 2){
+        armServoPos += 7;
+      }
       Serial.println("UP");
-      armServoPos += 7;
       break;
     case DOWN:
+      if(counter == 2){
+        armServoPos -= 7;
+      }
       Serial.println("DOWN");
-      armServoPos -= 7;
       break;
     case LEFT:
-      grapplerPos -= 7;
-      baseServoPos -= 15;
+      if(counter == 1){
+        baseServoPos -= 15;
+      }else if(counter == 3){
+        grapplerPos -= 7;
+      }
       Serial.println("LEFT");
-      Serial.println(grapplerServo.read());
       break;
     case RIGHT:
-      grapplerPos += 7;
-      baseServoPos += 15;
+      if(counter == 1){
+        baseServoPos += 15;
+      }else if(counter == 3){
+        grapplerPos += 7;
+      }
       Serial.println("RIGHT");
-      Serial.println(grapplerServo.read());
       break;
   }
   
@@ -118,7 +126,6 @@ void loop() {
     Serial.println(counter);
   }
   
-
   isRunning = timer(isRunning);
   if (isRunning == false){
     digitalWrite(BUZZ, HIGH);
@@ -127,8 +134,3 @@ void loop() {
 
   delay(100);
 }
-    
-
-
-
-
