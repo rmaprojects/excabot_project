@@ -5,20 +5,28 @@
 
 int counter = 1;
 bool isRunning = true;
+bool isGame = true;
 
 //Define servo pins
 #define GRAPPLERSERVOPIN 2
-#define BASESERVOPIN 5
+#define BASESERVOPIN 4
 #define ARMSERVOPIN 3
+#define LIFTSERVOPIN 5
+
+#define PBRESET 51
+#define PBGAME 49
+#define PBEXCA 47
 
 //Servos
 Servo grapplerServo;
 Servo baseServo;
 Servo armServo;
+Servo liftServo;
 
 int grapplerPos = 50;
-int baseServoPos = 0;
+int baseServoPos = 60;
 int armServoPos = 21;
+int liftServoPos = 5;
 
 void setup() {
 
@@ -28,6 +36,7 @@ void setup() {
   grapplerServo.attach(GRAPPLERSERVOPIN);
   baseServo.attach(BASESERVOPIN);
   armServo.attach(ARMSERVOPIN);
+  liftServo.attach(LIFTSERVOPIN);
 
   //LED Timer
   pinMode(RED, OUTPUT);
@@ -43,11 +52,18 @@ void setup() {
   pinMode(ledHijau, OUTPUT);
   pinMode(ledKuning, OUTPUT);
   pinMode(ledMerah, OUTPUT);
+
+  pinMode(PBRESET, INPUT_PULLUP);
+  pinMode(PBGAME, INPUT_PULLUP);
+  pinMode(PBEXCA, INPUT_PULLUP);
 }
 
 
 void loop() {
   int buttonState = digitalRead(joystickSw);
+  int resetState = digitalRead(PBRESET);
+  int gameState = digitalRead(PBGAME);
+  int excaState = digitalRead(PBEXCA);
 
   JoystickMovement joystickState = getjoystickState();
 
@@ -72,6 +88,8 @@ void loop() {
         baseServoPos -= 15;
       }else if(counter == 3){
         grapplerPos -= 7;
+      }else if(counter == 2){
+        liftServoPos -= 7;
       }
       Serial.println("LEFT");
       break;
@@ -80,6 +98,8 @@ void loop() {
         baseServoPos += 15;
       }else if(counter == 3){
         grapplerPos += 7;
+      }else if(counter == 2){
+        liftServoPos += 7;
       }
       Serial.println("RIGHT");
       break;
@@ -88,14 +108,17 @@ void loop() {
   grapplerPos = constrain(grapplerPos, 0, 100);
   baseServoPos = constrain(baseServoPos, 0, 200);
   armServoPos = constrain(armServoPos, 0, 180);
+  liftServoPos = constrain(liftServoPos, 0, 180);
 
   grapplerServo.write(grapplerPos);
   baseServo.write(baseServoPos);
   armServo.write(armServoPos);
+  liftServo.write(liftServoPos);
 
   Serial.println(grapplerPos);
   Serial.println(baseServoPos);
   Serial.println(armServoPos);
+  Serial.println(liftServoPos);
 
 
   if (buttonState == HIGH) {
@@ -126,10 +149,62 @@ void loop() {
     Serial.println(counter);
   }
   
-  isRunning = timer(isRunning);
-  if (isRunning == false){
-    digitalWrite(BUZZ, HIGH);
-    Serial.println("Buzz On");
+  if(isGame){
+    isRunning = timer(isRunning);
+    if (isRunning == false){
+      digitalWrite(BUZZ, HIGH);
+      Serial.println("Buzz On");
+    }
+    Serial.println("Mode Game");
+  }else{
+    Serial.println("Mode Biasa");
+  }
+
+  //tess=====================================
+    // Tombol Game: aktifkan mode dengan timer
+  if (gameState == LOW) {
+    delay(50);
+    if (digitalRead(PBGAME) == LOW) {
+      isGame = true;
+      isRunning = true; // mulai ulang timer
+      resetTimer();
+      Serial.println("Mode: Game (Timer Aktif)");
+    }
+  }
+
+  // Tombol Exca: mode bebas (tanpa timer)
+  if (excaState == LOW) {
+    delay(50);
+    if (digitalRead(PBEXCA) == LOW) {
+      isGame = false;
+      Serial.println("Mode: Bebas (Timer OFF)");
+      digitalWrite(BUZZ, LOW); // Matikan buzzer jika nyala
+      digitalWrite(RED, LOW);
+      digitalWrite(YELLOW, LOW);
+      digitalWrite(GREEN, LOW);
+    }
+  }
+
+  // Tombol Reset: kembalikan posisi servo
+  if (resetState == LOW) {
+    delay(50);
+    if (digitalRead(PBRESET) == LOW) {
+      Serial.println("Reset posisi servo");
+      
+      // Reset semua posisi servo
+      grapplerPos = 50;
+      baseServoPos = 60;
+      armServoPos = 21;
+      liftServoPos = 5;
+
+      grapplerServo.write(grapplerPos);
+      baseServo.write(baseServoPos);
+      armServo.write(armServoPos);
+      liftServo.write(liftServoPos);
+
+      isRunning = true; // Reset timer
+      digitalWrite(BUZZ, LOW); // Matikan buzzer
+    }
   }
 
   delay(100);

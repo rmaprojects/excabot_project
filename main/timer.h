@@ -13,4 +13,6 @@ const int BUZZ = 13;
 void initTimer();
 bool timer(bool isRunning);
 
+void resetTimer();
+
 #endif

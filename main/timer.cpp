@@ -1,6 +1,6 @@
 #include "timer.h"
 
-unsigned long timerMillis = 0;
+unsigned long startMillis = 0;
 
 void initTimer() {
   // Matikan semua LED dulu
@@ -11,13 +11,12 @@ void initTimer() {
   digitalWrite(YELLOW, LOW);
   digitalWrite(GREEN, LOW);
   digitalWrite(BUZZ, LOW);
-  timerMillis = millis();
 }
 
 bool timer(bool isRunning){
 // Logika timer
   if (isRunning) {
-    unsigned long currentMillis = millis();
+    unsigned long currentMillis = millis() - startMillis;
     if (currentMillis < 20000) { // 0-20 detik: Hijau menyala
       digitalWrite(GREEN, HIGH);
       digitalWrite(YELLOW, LOW);
@@ -42,4 +41,9 @@ bool timer(bool isRunning){
     }
   }
   return isRunning;
+}
+
+void resetTimer(){
+  initTimer();
+  startMillis = millis();
 }

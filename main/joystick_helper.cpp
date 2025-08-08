@@ -6,13 +6,13 @@ JoystickMovement getjoystickState() {
   int xValue = analogRead(xAxis);
   int yValue = analogRead(yAxis);
 
-  Serial.print(xValue);
-  Serial.print(yValue);
+  Serial.println(xValue);
+  Serial.println(yValue);
 
-  if (xValue < 45) return RIGHT;
-  if (xValue > 1000) return LEFT;
-  if (yValue < 52) return UP;
-  if (yValue > 1000) return DOWN;
+  if (xValue < 200) return RIGHT;
+  if (xValue > 800) return LEFT;
+  if (yValue < 200) return UP;
+  if (yValue > 800) return DOWN;
 
   
 
