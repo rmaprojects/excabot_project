@@ -6,7 +6,9 @@ JoystickMovement getjoystickState() {
   int xValue = analogRead(xAxis);
   int yValue = analogRead(yAxis);
 
+  Serial.print("xVal: ");
   Serial.println(xValue);
+  Serial.print("yVal: ");
   Serial.println(yValue);
 
   if (xValue < 200) return RIGHT;

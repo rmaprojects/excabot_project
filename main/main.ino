@@ -15,7 +15,7 @@ bool isGame = true;
 
 #define PBRESET 51
 #define PBGAME 49
-#define PBEXCA 47
+#define PBEXCA 47                                                                                                                          
 
 //Servos
 Servo grapplerServo;
@@ -73,19 +73,19 @@ void loop() {
       break;
     case UP:
       if(counter == 2){
-        armServoPos += 7;
+        armServoPos += 5;
       }
       Serial.println("UP");
       break;
     case DOWN:
       if(counter == 2){
-        armServoPos -= 7;
+        armServoPos -= 5;
       }
       Serial.println("DOWN");
       break;
     case LEFT:
       if(counter == 1){
-        baseServoPos -= 15;
+        baseServoPos -= 7;
       }else if(counter == 3){
         grapplerPos -= 7;
       }else if(counter == 2){
@@ -95,7 +95,7 @@ void loop() {
       break;
     case RIGHT:
       if(counter == 1){
-        baseServoPos += 15;
+        baseServoPos += 7;
       }else if(counter == 3){
         grapplerPos += 7;
       }else if(counter == 2){
@@ -107,17 +107,21 @@ void loop() {
   
   grapplerPos = constrain(grapplerPos, 0, 100);
   baseServoPos = constrain(baseServoPos, 0, 200);
-  armServoPos = constrain(armServoPos, 0, 180);
-  liftServoPos = constrain(liftServoPos, 0, 180);
+  armServoPos = constrain(armServoPos, 0, 50); //lift
+  liftServoPos = constrain(liftServoPos, 0, 180); //arm
 
   grapplerServo.write(grapplerPos);
   baseServo.write(baseServoPos);
   armServo.write(armServoPos);
   liftServo.write(liftServoPos);
 
+  Serial.print("grappler: ");
   Serial.println(grapplerPos);
+  Serial.print("base: ");
   Serial.println(baseServoPos);
+  Serial.print("arm: ");
   Serial.println(armServoPos);
+  Serial.print("lift: ");
   Serial.println(liftServoPos);
 
 
@@ -207,5 +211,5 @@ void loop() {
     }
   }
 
-  delay(100);
+  delay(50);
 }
